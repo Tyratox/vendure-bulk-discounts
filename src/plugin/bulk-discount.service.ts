@@ -29,6 +29,15 @@ export class BulkDiscountService {
       .getMany();
   }
 
+  findByProductVariantId(productVariantId: ID): Promise<BulkDiscount[]> {
+    return this.connection
+      .getRepository(BulkDiscount)
+      .createQueryBuilder("bulkDiscount")
+      .leftJoinAndSelect("bulkDiscount.productVariant", "productVariant")
+      .where("productVariant.id = :productVariantId", { productVariantId })
+      .getMany();
+  }
+
   findByProductId(productId: ID): Promise<BulkDiscount[]> {
     return this.connection
       .getRepository(BulkDiscount)

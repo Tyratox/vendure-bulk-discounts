@@ -2,6 +2,14 @@
 
 The vendure-bulk-discounts plugin allows you to define different prices for product variants depending on the amount being purchased by clients. **Right now prices aren't reduced!** This plugin is mainly a preparation for when promotion actions have access to the database.
 
+# Screenshot
+![Screenshot](https://raw.githubusercontent.com/Tyratox/vendure-bulk-discounts/master/screenshot.png)
+
+# Disclaimers
+
+- I haven't worked with angular a lot, I'm sorry if some of my angular code looks more like react. Feel free to tell me what should be done differently.
+- **There are no tests yet!**
+
 # Installation
 
 Step 1): Install `vendure-bulk-discounts` by using `npm` or `yarn`:
@@ -57,12 +65,12 @@ The following graphql endpoints are added:
 	type BulkDiscount {
 	  productVariant: ProductVariant!
 	  quantity: Int!
-	  price: Float!
+	  price: Int!
 	}
 	
 	input BulkDiscountInput {
 	  quantity: Int!
-	  price: Float!
+	  price: Int!
 	}
     
 	extend type Query {
@@ -79,16 +87,22 @@ The following graphql endpoints are added:
         discounts: [BulkDiscountInput!]!
 	  ): Boolean!
 	}
+	extend type ProductVariant {
+	  bulkDiscounts: [BulkDiscount!]!
+	}
 
 ## Shop
 
 	type BulkDiscount {
 	  productVariant: ProductVariant!
 	  quantity: Int!
-	  price: Float!
+	  price: Int!
 	}
 	extend type Query {
 	  productBulkDiscounts(productId: ID!): [BulkDiscount!]!
+	}
+	extend type ProductVariant {
+	  bulkDiscounts: [BulkDiscount!]!
 	}
 
 # Known issues
@@ -100,6 +114,3 @@ The following graphql endpoints are added:
 
 ## UI
 - Currently one is required to manually press the save button in addition to the save button for the product
-
-# Screenshot
-![Screenshot](https://raw.githubusercontent.com/Tyratox/vendure-bulk-discounts/master/screenshot.png)

@@ -12,6 +12,7 @@ import {
   BulkDiscountAdminResolver,
   BulkDiscountShopResolver,
   BulkDiscountEntityResolver,
+  ProductVariantEntityResolver,
 } from "./bulk-discount.resolver";
 import { BulkDiscountService } from "./bulk-discount.service";
 
@@ -50,16 +51,18 @@ const applyBulkDiscount = new PromotionOrderAction({
   },
 });
 
+//extend product
+
 const adminSchemaExtension = gql`
   type BulkDiscount {
     productVariant: ProductVariant!
     quantity: Int!
-    price: Float!
+    price: Int!
   }
 
   input BulkDiscountInput {
     quantity: Int!
-    price: Float!
+    price: Int!
   }
 
   extend type Query {
@@ -76,16 +79,23 @@ const adminSchemaExtension = gql`
       discounts: [BulkDiscountInput!]!
     ): Boolean!
   }
+
+  extend type ProductVariant {
+    bulkDiscounts: [BulkDiscount!]!
+  }
 `;
 
 const shopSchemaExtension = gql`
   type BulkDiscount {
     productVariant: ProductVariant!
     quantity: Int!
-    price: Float!
+    price: Int!
   }
   extend type Query {
     productBulkDiscounts(productId: ID!): [BulkDiscount!]!
+  }
+  extend type ProductVariant {
+    bulkDiscounts: [BulkDiscount!]!
   }
 `;
 
@@ -95,11 +105,19 @@ const shopSchemaExtension = gql`
   providers: [BulkDiscountService],
   adminApiExtensions: {
     schema: adminSchemaExtension,
-    resolvers: [BulkDiscountAdminResolver, BulkDiscountEntityResolver],
+    resolvers: [
+      BulkDiscountAdminResolver,
+      BulkDiscountEntityResolver,
+      ProductVariantEntityResolver,
+    ],
   },
   shopApiExtensions: {
     schema: shopSchemaExtension,
-    resolvers: [BulkDiscountShopResolver, BulkDiscountEntityResolver],
+    resolvers: [
+      BulkDiscountShopResolver,
+      BulkDiscountEntityResolver,
+      ProductVariantEntityResolver,
+    ],
   },
   configuration: (config) => {
     if (!config.promotionOptions.promotionActions) {

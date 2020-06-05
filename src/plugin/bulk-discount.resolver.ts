@@ -25,10 +25,7 @@ import { Translated } from "@vendure/core/dist/common/types/locale-types";
 
 @Resolver()
 export class BulkDiscountAdminResolver {
-  constructor(
-    private bulkDiscountService: BulkDiscountService,
-    private productVariantService: ProductVariantService
-  ) {}
+  constructor(private bulkDiscountService: BulkDiscountService) {}
 
   @Mutation()
   @Allow(Permission.UpdateCatalog)
@@ -174,5 +171,18 @@ export class BulkDiscountEntityResolver {
     }
 
     return productVariant;
+  }
+}
+
+@Resolver("ProductVariant")
+export class ProductVariantEntityResolver {
+  constructor(private bulkDiscountService: BulkDiscountService) {}
+
+  @ResolveField()
+  async bulkDiscounts(
+    @Ctx() ctx: RequestContext,
+    @Parent() productVariant: ProductVariant
+  ): Promise<BulkDiscount[]> {
+    return this.bulkDiscountService.findByProductVariantId(productVariant.id);
   }
 }

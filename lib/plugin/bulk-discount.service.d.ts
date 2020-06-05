@@ -9,6 +9,7 @@ export declare class BulkDiscountService {
     constructor(connection: Connection);
     findAll(options: FindManyOptions<BulkDiscount> | undefined): Promise<BulkDiscount[]>;
     findByProductVariantSku(productVariantSku: string): Promise<BulkDiscount[]>;
+    findByProductVariantId(productVariantId: ID): Promise<BulkDiscount[]>;
     findByProductId(productId: ID): Promise<BulkDiscount[]>;
     findProductVariantIdBySku(sku: string): Promise<ID>;
     findOne(recommendationId: ID): Promise<BulkDiscount | undefined>;

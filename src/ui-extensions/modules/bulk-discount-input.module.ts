@@ -178,7 +178,10 @@ export class BulkDiscountControl
           ),
           {
             productVariantSku: this.productVariantSku,
-            discounts: this.discounts,
+            discounts: this.discounts.map((d) => ({
+              quantity: d.quantity,
+              price: d.price * 100,
+            })),
           }
         )
         .toPromise()

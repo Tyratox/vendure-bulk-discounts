@@ -1,13 +1,14 @@
 {
   "name": "vendure-bulk-discounts",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "main": "./index.js",
   "description": "Adds bulk discounts to vendure",
   "repository": "https://github.com/Tyratox/vendure-bulk-discounts",
   "author": "Nico Hauser",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf lib && tsc && cp package.json ./lib/ && cp README.md ./lib/ && cp -r ./src/ui-extensions ./lib/ui-extensions"
+    "build": "rimraf lib && tsc && cp package.json ./lib/ && cp README.md ./lib/ && cp -r ./src/ui-extensions ./lib/ui-extensions",
+	"build-publish": "yarn build && cd lib && yarn publish && cd .."
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.1",

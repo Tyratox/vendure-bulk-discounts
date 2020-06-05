@@ -65,12 +65,12 @@ The following graphql endpoints are added:
 	type BulkDiscount {
 	  productVariant: ProductVariant!
 	  quantity: Int!
-	  price: Float!
+	  price: Int!
 	}
 	
 	input BulkDiscountInput {
 	  quantity: Int!
-	  price: Float!
+	  price: Int!
 	}
     
 	extend type Query {
@@ -87,16 +87,22 @@ The following graphql endpoints are added:
         discounts: [BulkDiscountInput!]!
 	  ): Boolean!
 	}
+	extend type ProductVariant {
+	  bulkDiscounts: [BulkDiscount!]!
+	}
 
 ## Shop
 
 	type BulkDiscount {
 	  productVariant: ProductVariant!
 	  quantity: Int!
-	  price: Float!
+	  price: Int!
 	}
 	extend type Query {
 	  productBulkDiscounts(productId: ID!): [BulkDiscount!]!
+	}
+	extend type ProductVariant {
+	  bulkDiscounts: [BulkDiscount!]!
 	}
 
 # Known issues

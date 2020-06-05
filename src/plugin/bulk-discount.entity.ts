@@ -28,6 +28,6 @@ export class BulkDiscount extends VendureEntity {
   @Column({ type: "int" })
   quantity: number;
 
-  @Column({ type: "float" })
+  @Column({ type: "int" })
   price: number;
 }
