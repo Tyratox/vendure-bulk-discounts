@@ -1,6 +1,6 @@
 {
   "name": "vendure-bulk-discounts",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "./index.js",
   "description": "Adds bulk discounts to vendure",
   "repository": "https://github.com/Tyratox/vendure-bulk-discounts",
