@@ -66,7 +66,9 @@ export class BulkDiscountService {
 
     for (const d of input.discounts) {
       const discount = new BulkDiscount({
-        productVariantId: input.productVariantId,
+        productVariant: await this.connection
+          .getRepository(ProductVariant)
+          .findOne(input.productVariantId),
         quantity: d.quantity,
         price: d.price,
       });
