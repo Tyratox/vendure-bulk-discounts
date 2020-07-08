@@ -124,7 +124,7 @@ export class BulkDiscountControl
           .then((response) => {
             this.discounts = response.productBulkDiscounts
               .filter((d) => d.productVariant.sku === this.productVariantSku)
-              .map((d) => ({ quantity: d.quantity, price: d.price }));
+              .map((d) => ({ quantity: d.quantity, price: d.price / 100 }));
             this.cdr.detectChanges();
           })
           .catch((e) => {

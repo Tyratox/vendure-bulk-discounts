@@ -59,7 +59,7 @@ export class BulkDiscountAdminResolver {
 
     const updates = [];
 
-    for (let i = 0; i < args.discounts.length; i++) {
+    for (let i = 0; i < discounts.length; i++) {
       updates.push(
         this.bulkDiscountService.update(
           discounts[i].id,
@@ -113,7 +113,7 @@ export class BulkDiscountAdminResolver {
 
     const updates = [];
 
-    for (let i = 0; i < args.discounts.length; i++) {
+    for (let i = 0; i < discounts.length; i++) {
       updates.push(
         this.bulkDiscountService.update(
           discounts[i].id,

@@ -5,6 +5,11 @@ import {
   LanguageCode,
   PromotionOrderAction,
   ID,
+  PromotionActionArgs,
+  PromotionOrderActionConfig,
+  PromotionItemAction,
+  PromotionItemActionConfig,
+  AdjustmentType,
 } from "@vendure/core";
 import gql from "graphql-tag";
 import { BulkDiscount } from "./bulk-discount.entity";
@@ -36,18 +41,51 @@ const always = new PromotionCondition({
   priorityValue: 10,
 });
 
-const applyBulkDiscount = new PromotionOrderAction({
+interface BulkDiscountPromotionOrderActionConfig<T extends PromotionActionArgs>
+  extends PromotionItemActionConfig<T> {
+  bulkDiscountService: null | BulkDiscountService;
+}
+
+class BulkDiscountPromotionItemAction<
+  T extends PromotionActionArgs = {}
+> extends PromotionItemAction<T> {
+  constructor(config: BulkDiscountPromotionOrderActionConfig<T>) {
+    super(config);
+  }
+}
+
+const applyBulkDiscount = new BulkDiscountPromotionItemAction({
+  bulkDiscountService: null,
+  init: function (injector) {
+    this.bulkDiscountService = injector.get(BulkDiscountService);
+  },
   description: [
     {
       languageCode: LanguageCode.en,
-      value: "Apply bulk discount configured elsewhere",
+      value: "Apply bulk discount configured in the product variants ",
     },
   ],
-  code: "bulk_discount",
+  code: "bulk-discount",
   args: {},
-  execute(order, args, { hasFacetValues }) {
-    //TODO
-    return 0;
+  execute: async function (orderItem, orderLine, args, utils) {
+    //@ts-ignore
+    const bulkDiscountService: null | BulkDiscountService = this["options"]
+      .bulkDiscountService;
+
+    if (!bulkDiscountService) {
+      throw new Error(
+        "Object has already been destroyed or not created yet. Try again."
+      );
+    }
+
+    const discounts = await bulkDiscountService.findByProductVariantId(
+      orderLine.productVariant.id
+    );
+    const discount = discounts
+      .sort((a, b) => b.quantity - a.quantity)
+      .find((a) => a.quantity <= orderLine.quantity);
+
+    return discount ? discount.price - orderLine.unitPriceWithTax : 0;
   },
 });
 
