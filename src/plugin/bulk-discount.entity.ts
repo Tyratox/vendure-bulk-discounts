@@ -1,11 +1,12 @@
 import { DeepPartial } from "@vendure/common/lib/shared-types";
-import { VendureEntity, Product, ProductVariant } from "@vendure/core";
+import { VendureEntity, ID, ProductVariant } from "@vendure/core";
 import {
   Column,
   Entity,
   ManyToOne,
   JoinColumn,
   PrimaryGeneratedColumn,
+  RelationId,
 } from "typeorm";
 
 @Entity()
@@ -24,6 +25,9 @@ export class BulkDiscount extends VendureEntity {
   })
   @JoinColumn()
   productVariant: ProductVariant;
+
+  @RelationId((item: BulkDiscount) => item.productVariant)
+  productVariantId: ID;
 
   @Column({ type: "int" })
   quantity: number;
