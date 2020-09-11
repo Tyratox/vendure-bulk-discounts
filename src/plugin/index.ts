@@ -1,3 +1,4 @@
+import { OrderItem, OrderLine } from "@vendure/common/lib/generated-types";
 import {
   VendurePlugin,
   PluginCommonModule,
@@ -5,12 +6,14 @@ import {
   LanguageCode,
   PromotionOrderAction,
   ID,
-  PromotionActionArgs,
-  PromotionOrderActionConfig,
   PromotionItemAction,
   PromotionItemActionConfig,
   AdjustmentType,
 } from "@vendure/core";
+import {
+  ConfigArgs,
+  ConfigArgValues,
+} from "@vendure/core/dist/common/configurable-operation";
 import gql from "graphql-tag";
 import { BulkDiscount } from "./bulk-discount.entity";
 import {
@@ -41,13 +44,13 @@ const always = new PromotionCondition({
   priorityValue: 10,
 });
 
-interface BulkDiscountPromotionOrderActionConfig<T extends PromotionActionArgs>
+interface BulkDiscountPromotionOrderActionConfig<T extends ConfigArgs>
   extends PromotionItemActionConfig<T> {
   bulkDiscountService: null | BulkDiscountService;
 }
 
 class BulkDiscountPromotionItemAction<
-  T extends PromotionActionArgs = {}
+  T extends ConfigArgs = ConfigArgs
 > extends PromotionItemAction<T> {
   constructor(config: BulkDiscountPromotionOrderActionConfig<T>) {
     super(config);
@@ -67,7 +70,7 @@ const applyBulkDiscount = new BulkDiscountPromotionItemAction({
   ],
   code: "bulk-discount",
   args: {},
-  execute: async function (orderItem, orderLine, args, utils) {
+  execute: async function (orderItem, orderLine, args) {
     //@ts-ignore
     const bulkDiscountService: null | BulkDiscountService = this["options"]
       .bulkDiscountService;

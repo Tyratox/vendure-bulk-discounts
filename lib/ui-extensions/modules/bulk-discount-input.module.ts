@@ -37,6 +37,7 @@ import { parse } from "graphql";
                 type="number"
                 value="{{ discount.quantity }}"
                 (input)="onQuantityChange(i, $event.target.value)"
+                [readonly]="readonly"
               />
             </td>
             <td>
@@ -44,6 +45,7 @@ import { parse } from "graphql";
                 type="number"
                 value="{{ discount.price }}"
                 (input)="onPriceChange(i, $event.target.value)"
+                [readonly]="readonly"
               />
             </td>
             <td>
@@ -54,7 +56,11 @@ import { parse } from "graphql";
             <td><input style="visibility:hidden;" /></td>
             <td><input style="visibility:hidden;" /></td>
             <td>
-              <button class="btn btn-secondary" (click)="newEntry()">
+              <button
+                class="btn btn-secondary"
+                (click)="newEntry()"
+                [disabled]="readonly"
+              >
                 New entry
               </button>
             </td>
@@ -62,7 +68,11 @@ import { parse } from "graphql";
         </tbody>
       </table>
       <br />
-      <button class="btn btn-primary" (click)="saveBulkDiscounts()">
+      <button
+        class="btn btn-primary"
+        (click)="saveBulkDiscounts()"
+        [disabled]="readonly"
+      >
         Save
       </button>
       <br /><br />
@@ -71,7 +81,8 @@ import { parse } from "graphql";
 })
 export class BulkDiscountControl
   implements CustomFieldControl, OnInit, OnDestroy {
-  customFieldConfig: CustomFieldConfigType;
+  config: CustomFieldConfigType;
+  readonly: boolean;
   formControl: FormControl;
 
   productId: ID | null;
