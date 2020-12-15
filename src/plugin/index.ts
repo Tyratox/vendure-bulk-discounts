@@ -70,7 +70,7 @@ const applyBulkDiscount = new BulkDiscountPromotionItemAction({
   ],
   code: "bulk-discount",
   args: {},
-  execute: async function (orderItem, orderLine, args) {
+  execute: async function (ctx, orderItem, orderLine, args) {
     //@ts-ignore
     const bulkDiscountService: null | BulkDiscountService = this["options"]
       .bulkDiscountService;

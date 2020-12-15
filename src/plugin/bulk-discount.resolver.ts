@@ -15,6 +15,7 @@ import {
   Product,
   ProductVariant,
   ProductVariantService,
+  Transaction,
 } from "@vendure/core";
 import { Permission } from "@vendure/common/lib/generated-types";
 
@@ -27,6 +28,7 @@ import { Translated } from "@vendure/core/dist/common/types/locale-types";
 export class BulkDiscountAdminResolver {
   constructor(private bulkDiscountService: BulkDiscountService) {}
 
+  @Transaction()
   @Mutation()
   @Allow(Permission.UpdateCatalog)
   async updateProductVariantBulkDiscounts(
@@ -74,6 +76,7 @@ export class BulkDiscountAdminResolver {
     return true;
   }
 
+  @Transaction()
   @Mutation()
   @Allow(Permission.UpdateCatalog)
   async updateProductVariantBulkDiscountsBySku(

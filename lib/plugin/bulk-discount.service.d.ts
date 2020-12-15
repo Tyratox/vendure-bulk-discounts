@@ -1,12 +1,11 @@
-import { Connection } from "typeorm";
 import { FindManyOptions } from "typeorm/find-options/FindManyOptions";
-import { ID } from "@vendure/core";
+import { ID, TransactionalConnection } from "@vendure/core";
 import { DeletionResponse } from "@vendure/common/lib/generated-types";
 import { BulkDiscount } from "./bulk-discount.entity";
 import { BulkDiscountInput } from "./index";
 export declare class BulkDiscountService {
     private connection;
-    constructor(connection: Connection);
+    constructor(connection: TransactionalConnection);
     findAll(options: FindManyOptions<BulkDiscount> | undefined): Promise<BulkDiscount[]>;
     findByProductVariantSku(productVariantSku: string): Promise<BulkDiscount[]>;
     findByProductVariantId(productVariantId: ID): Promise<BulkDiscount[]>;

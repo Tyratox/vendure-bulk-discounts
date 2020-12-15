@@ -1,8 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import { InjectConnection } from "@nestjs/typeorm";
-import { Connection, In } from "typeorm";
+import { In } from "typeorm";
 import { FindManyOptions } from "typeorm/find-options/FindManyOptions";
-import { ID, assertFound, Product, ProductVariant } from "@vendure/core";
+import {
+  ID,
+  assertFound,
+  Product,
+  ProductVariant,
+  TransactionalConnection,
+} from "@vendure/core";
 import {
   DeletionResponse,
   DeletionResult,
@@ -12,7 +17,7 @@ import { BulkDiscountInput } from "./index";
 
 @Injectable()
 export class BulkDiscountService {
-  constructor(@InjectConnection() private connection: Connection) {}
+  constructor(private connection: TransactionalConnection) {}
 
   findAll(
     options: FindManyOptions<BulkDiscount> | undefined
@@ -89,7 +94,7 @@ export class BulkDiscountService {
 
   async delete(ids: ID[]): Promise<DeletionResponse> {
     try {
-      await this.connection
+      await this.connection.rawConnection
         .createQueryBuilder()
         .delete()
         .from(BulkDiscount)
