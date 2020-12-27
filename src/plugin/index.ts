@@ -92,9 +92,15 @@ const applyBulkDiscount = new BulkDiscountPromotionItemAction({
     //since we want to actually set the price, we have to adjust for this
     //by dividing by the rate. (It will be multiplied by it again which cancels)
 
+    //((round(priceWithTax / rate) + round(promotion)) * rate) * quantity
+    //issue is the rounding here
+    //what we want is discount.price
+    //what is used when calculating is orderLine.unitPrice
+    //we want discount.price = (unitPrice + round(promotion)) * rate
+    //hence  discount.price/rate - unitPrice = round(promotion)
+
     return discount
-      ? (discount.price - orderLine.unitPriceWithTax) /
-          (1.0 + orderLine.taxRate / 100)
+      ? discount.price / (1.0 + orderLine.taxRate / 100) - orderLine.unitPrice
       : 0;
   },
 });
