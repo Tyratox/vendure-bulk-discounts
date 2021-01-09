@@ -88,7 +88,7 @@ const applyBulkDiscount = new BulkDiscountPromotionItemAction({
       .sort((a, b) => b.quantity - a.quantity)
       .find((a) => a.quantity <= orderLine.quantity);
 
-    return discount ? discount.price - orderLine.unitPrice : 0;
+    return discount ? discount.price - orderLine.unitPriceWithTax : 0;
   },
 });
 
