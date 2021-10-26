@@ -1,3 +1,7 @@
+# Note
+
+Currently this repo is not maintained!
+
 # About
 
 The vendure-bulk-discounts plugin allows you to define different prices for product variants depending on the amount being purchased by clients. **Right now prices aren't reduced!** This plugin is mainly a preparation for when promotion actions have access to the database.
