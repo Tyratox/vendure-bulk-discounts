@@ -22,7 +22,7 @@
     "@vendure/common": "^1.0.0-beta.4",
     "@vendure/core": "^1.0.0-beta.4",
     "@vendure/ui-devkit": "^1.0.0-beta.4",
-    "ng-packagr": "^9.0.0",
+    "ng-packagr": "^10.1.1",
     "rimraf": "^3.0.2",
     "typescript": "^3.8.3"
   },
